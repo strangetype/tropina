@@ -1,0 +1,33 @@
+@font-face {
+  font-family: Taurus;
+  src: url(./assets/fonts/taurus.ttf) format('truetype');
+  src: url(./assets/fonts/taurus.woff) format('woff');
+}
+
+* {
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  background: #000;
+  color: #fff;
+}
+
+.fade-enter-active, .fade-leave-active {
+  opacity: 1;
+  transition: opacity 2s;
+}
+
+.fade-enter, .fade-leave-to {
+  transition: opacity 2s;
+  opacity: 0
+}
+
+.absolute-fill-container {
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+}
