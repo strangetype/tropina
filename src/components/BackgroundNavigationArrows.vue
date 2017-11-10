@@ -46,7 +46,7 @@
         margin: 60px;
       }
       @include mobile {
-        margin: 0.2em;
+        margin: 20px;
       }
       cursor: pointer;
       color: #ccc;

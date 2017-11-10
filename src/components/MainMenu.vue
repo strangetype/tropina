@@ -6,7 +6,7 @@
         <span >{{item.label}}</span>
         <div class="MainMenu-Separator"></div>
       </li>
-      <i v-on:click="close" class="MainMenu-Icon MainMenu-Close fa fa-times"></i>
+      <i v-on:click="close" class="MainMenu-Icon MainMenu-Close fa fa-angle-left"></i>
     </ul>
   </div>
 
@@ -89,6 +89,10 @@
       &.MainMenu-Item--active {
         text-shadow: 0 0 10px #fff;
         list-style: circle;
+        @include mobile {
+          color: #f05;
+          text-shadow: 0 0 10px #f05;
+        }
       }
       &:hover {
         text-shadow: 0 0 10px #fff;
@@ -109,9 +113,9 @@
 
     .MainMenu-Icon {
       position: absolute;
-      padding: 1em;
       top: 0;
       color: #fff;
+      padding: 20px;
       text-shadow: 0 0 5px #fff;
       @include desktop {
         display: none;
@@ -120,10 +124,13 @@
 
     .MainMenu-Open {
       left: 0;
+      animation-name: click-me;
+      animation-duration: 10s;
+      animation-iteration-count: infinite;
     }
 
     .MainMenu-Close {
-      right: 0;
+      left: 0;
     }
 
     &.MainMenu--Opened {
