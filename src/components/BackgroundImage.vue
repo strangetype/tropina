@@ -14,6 +14,8 @@
 
   import { mapActions, mapGetters } from 'vuex';
 
+  const { ceil } = Math;
+
   export default {
     name: 'BackgroundImage',
     data () {
@@ -28,10 +30,10 @@
     computed: mapGetters(['currentPhoto']),
     methods: {
       calcImageStyles() {
-        if (this.$refs.image1) this.imageStyle1 = { left: (this.$refs.container.offsetWidth - this.$refs.image1.offsetWidth)/2 + 'px', top: (this.$refs.container.offsetHeight - this.$refs.image1.offsetHeight)/2 + 'px'  };
-        if (this.$refs.image2) this.imageStyle2 = { left: (this.$refs.container.offsetWidth - this.$refs.image2.offsetWidth)/2 + 'px', top: (this.$refs.container.offsetHeight - this.$refs.image2.offsetHeight)/2 + 'px'  };
+        if (this.$refs.image1) this.imageStyle1 = { left: ceil((this.$refs.container.offsetWidth - this.$refs.image1.offsetWidth)/2) + 'px', top: ceil((this.$refs.container.offsetHeight - this.$refs.image1.offsetHeight)/2) + 'px'  };
+        if (this.$refs.image2) this.imageStyle2 = { left: ceil((this.$refs.container.offsetWidth - this.$refs.image2.offsetWidth)/2) + 'px', top: ceil((this.$refs.container.offsetHeight - this.$refs.image2.offsetHeight)/2) + 'px'  };
       },
-      ...mapActions(['nextBackgroundPhoto', 'getPhotos'])
+      ...mapActions(['nextBackgroundPhoto', 'getPhotos', 'startBackgroundPresentation'])
     },
     watch: {
       currentPhoto(url) {
@@ -42,18 +44,19 @@
     },
     created() {
       this.getPhotos();
-      this.__updateImageInterval = setInterval(this.nextBackgroundPhoto, 7000);
+      this.startBackgroundPresentation();
       this.__updateStyleInterval = setInterval(this.calcImageStyles, 10);
     },
     destroyed() {
       clearInterval(this.__updateStyleInterval);
-      clearInterval(this.__updateImageInterval);
     }
   }
 
 </script>
 
 <style scoped lang="scss">
+
+  @import "../style/mixins";
 
   .BackgroundImage {
     position: relative;
@@ -76,8 +79,16 @@
     top: 0;
     width: 100%;
     height: 100%;
-    background: -webkit-radial-gradient(transparent 50%,rgba(0,0,0,.3) 75%,rgba(0,0,0,.6) 100%);
-    background: radial-gradient(transparent 50%,rgba(0,0,0,.3) 75%,rgba(0,0,0,.6) 100%);
+
+    @include desktop {
+      background: -webkit-radial-gradient(transparent 50%,rgba(0,0,0,.3) 75%,rgba(0,0,0,.6) 100%);
+      background: radial-gradient(transparent 50%,rgba(0,0,0,.3) 75%,rgba(0,0,0,.6) 100%);
+    }
+
+    @include mobile {
+      background: rgba(0,0,0,0.5);
+    }
+
   }
 
 </style>

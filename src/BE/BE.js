@@ -5,16 +5,14 @@ const md5 = require('js-md5');
 
 const no_cache = require('superagent-no-cache');
 
-const apiDomain = 'http://www.tropina.pro';
-const apiUrl = apiDomain+'/BE/index.php';
-const apiDataUrl = apiDomain+'/BE/data.json';
+const { API_URL, API_DATA_URL } = require('../constants');
 
 const BE = {
-  url: apiUrl,
+  url: API_URL,
   data: null,
   isAuth: function () {
     let resolver = Q.defer();
-    http.get(apiUrl).set('action','admin-is-auth')
+    http.get(API_URL).set('action','admin-is-auth')
       .end((a,res)=>{
       resolver.resolve(res.body.isAuth);
   });
@@ -22,7 +20,7 @@ const BE = {
   },
   login: function (login, pass) {
     let resolver = Q.defer();
-    http.post(apiUrl).set('action','admin-authorisation').send({data: {
+    http.post(API_URL).set('action','admin-authorisation').send({data: {
       username: login, password: md5(pass)
     }})
       .end((a,b)=>{
@@ -45,7 +43,7 @@ const BE = {
   },
   getData: function() {
     let resolver = Q.defer();
-    http.get(apiDataUrl).use(no_cache)
+    http.get(API_DATA_URL).use(no_cache)
       .end((a,b)=>{
       this.data = b.body;
     resolver.resolve(b.body);
@@ -54,7 +52,7 @@ const BE = {
   },
   getPhotos: function() {
     let resolver = Q.defer();
-    http.get(apiUrl).set('action','get-photos')
+    http.get(API_URL).set('action','get-photos')
       .end((a,b)=>{
       resolver.resolve(b.body.photos);
   });
@@ -62,7 +60,7 @@ const BE = {
   },
   saveData: function(data) {
     let resolver = Q.defer();
-    http.post(apiUrl).set('action','admin-save-data').send({data: {data: data}})
+    http.post(API_URL).set('action','admin-save-data').send({data: {data: data}})
       .end((a,b)=>{
       resolver.resolve(b.body);
   });
@@ -90,7 +88,7 @@ const BE = {
     }
   });
     this.saveData(this.data).then(()=>{
-      http.post(apiUrl).set('action','admin-delete-photo').send({data: {id: id}})
+      http.post(API_URL).set('action','admin-delete-photo').send({data: {id: id}})
       .end((a,b)=>{
       resolver.resolve(b.body);
   });
@@ -498,7 +496,7 @@ const BE = {
   },
   sendMessage: function(message) {
     let resolver = Q.defer();
-    http.post(apiUrl).set('action','send-email')
+    http.post(API_URL).set('action','send-email')
       .send({data: {name: message.name, email: message.email, message: message.message, phone: message.phone}})
       .end((a,b)=>{
       resolver.resolve(b);
@@ -517,7 +515,7 @@ const BE = {
         confirmed: fb.confirmed,
         date: fb.date
       };
-      http.post(apiUrl).set('action','leave-feedback').send({data: feedback})
+      http.post(API_URL).set('action','leave-feedback').send({data: feedback})
         .end((a,b)=>{
         resolver.resolve(b.body);
     });
@@ -580,7 +578,7 @@ const BE = {
   },
   saveServicesInfo: function(servicesInfo) {
     let resolver = Q.defer();
-    http.post(apiUrl).set('action','admin-save-services-info').send({data: {
+    http.post(API_URL).set('action','admin-save-services-info').send({data: {
       servicesInfo: servicesInfo
     }}).end((a,b)=>{
       resolver.resolve(b.body);

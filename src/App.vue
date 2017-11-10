@@ -9,6 +9,7 @@
 <script>
 
   import Background from './components/Background.vue';
+  import generalStyle from './style/general.scss';
 
   export default {
     name: 'app',
@@ -17,9 +18,3 @@
     }
   }
 </script>
-
-<style lang="scss">
-
-@import 'style/general.scss';
-
-</style>

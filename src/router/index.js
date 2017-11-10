@@ -26,7 +26,7 @@ export default new Router({
       component: Gallery
     },
     {
-      path: '/service',
+      path: '/services',
       name: 'service',
       component: Service
     },

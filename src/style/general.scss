@@ -1,7 +1,8 @@
+
 @font-face {
   font-family: Taurus;
-  src: url(./assets/fonts/taurus.ttf) format('truetype');
-  src: url(./assets/fonts/taurus.woff) format('woff');
+  src: url(../assets/fonts/taurus.ttf) format('truetype');
+  src: url(../assets/fonts/taurus.woff) format('woff');
 }
 
 * {
@@ -10,17 +11,17 @@
 }
 
 body {
-  background: #000;
+  background: #000!important;
   color: #fff;
 }
 
 .fade-enter-active, .fade-leave-active {
   opacity: 1;
-  transition: opacity 2s;
+  transition: opacity 1s;
 }
 
 .fade-enter, .fade-leave-to {
-  transition: opacity 2s;
+  transition: opacity 1s;
   opacity: 0
 }
 
@@ -31,3 +32,4 @@ body {
   width: 100%;
   height: 100%;
 }
+

@@ -1,6 +1,8 @@
 import BE from './BE/BE';
 
-const PHOTOS_FOLDER_URL = 'http://www.tropina.pro/images/photos/';
+const { PHOTOS_FOLDER_URL } = require('./constants');
+
+let backgroundPhotoInterval;
 
 export default {
   state: {
@@ -17,13 +19,13 @@ export default {
     getPhotos (state, photos) {
       state.photos = photos;
     },
-    nextBackgroundPhoto(state) {
+    changeBackgroundPhoto(state, displace) {
       function checkPhotoId(id) {
         if (id>state.photos.length-1) id = 0;
         if (id<0) id = state.photos.length-1;
         return id;
       }
-      state.currentPhotoId++;
+      state.currentPhotoId += displace;
       state.currentPhotoId = checkPhotoId(state.currentPhotoId);
     }
   },
@@ -34,7 +36,24 @@ export default {
       });
     },
     nextBackgroundPhoto(context) {
-      context.commit('nextBackgroundPhoto');
+      context.dispatch('resetBackgroundPresentationInterval');
+      context.commit('changeBackgroundPhoto', 1);
+    },
+    prevBackgroundPhoto(context) {
+      context.dispatch('resetBackgroundPresentationInterval');
+      context.commit('changeBackgroundPhoto', -1);
+    },
+    startBackgroundPresentation(context) {
+      backgroundPhotoInterval = setInterval(()=> {
+        context.dispatch('nextBackgroundPhoto')
+      }, 7000);
+    },
+    pauseBackgroundPresentation(context) {
+      clearInterval(backgroundPhotoInterval);
+    },
+    resetBackgroundPresentationInterval(context) {
+      context.dispatch('pauseBackgroundPresentation');
+      context.dispatch('startBackgroundPresentation');
     }
   }
 };
