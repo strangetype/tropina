@@ -1,10 +1,10 @@
 import Vue from 'vue';
 import Vuex from 'vuex';
-import VueMaterial from 'vue-material';
 import App from './App';
 import router from './router';
 import storeProto from './store';
-import 'vue-material/dist/vue-material.css';
+import VueMaterial from 'vue-material'
+import 'vue-material/dist/vue-material.css'
 import 'font-awesome/css/font-awesome.css';
 
 Vue.use(VueMaterial);
