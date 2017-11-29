@@ -33,7 +33,7 @@
         if (this.$refs.image1) this.imageStyle1 = { left: ceil((this.$refs.container.offsetWidth - this.$refs.image1.offsetWidth)/2) + 'px', top: ceil((this.$refs.container.offsetHeight - this.$refs.image1.offsetHeight)/2) + 'px'  };
         if (this.$refs.image2) this.imageStyle2 = { left: ceil((this.$refs.container.offsetWidth - this.$refs.image2.offsetWidth)/2) + 'px', top: ceil((this.$refs.container.offsetHeight - this.$refs.image2.offsetHeight)/2) + 'px'  };
       },
-      ...mapActions(['nextBackgroundPhoto', 'getPhotos', 'startBackgroundPresentation'])
+      ...mapActions(['nextBackgroundPhoto', 'startBackgroundPresentation'])
     },
     watch: {
       currentPhoto(url) {
@@ -43,7 +43,6 @@
       }
     },
     created() {
-      this.getPhotos();
       this.startBackgroundPresentation();
       this.__updateStyleInterval = setInterval(this.calcImageStyles, 10);
     },

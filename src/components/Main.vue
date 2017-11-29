@@ -9,12 +9,10 @@
       </div>
     </div>
     <BackgroundNavigationArrows />
-    <MainMenu />
   </div>
 </template>
 
 <script>
-  import MainMenu from './MainMenu';
   import BackgroundNavigationArrows from './BackgroundNavigationArrows';
 
   import { LOGO_IMAGE_URL } from '../constants';
@@ -27,7 +25,6 @@
       }
     },
     components: {
-      MainMenu,
       BackgroundNavigationArrows
     }
   }

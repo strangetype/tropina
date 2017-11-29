@@ -1,11 +1,12 @@
 <template>
-  <div class="MainMenu" v-bind:class="{'MainMenu--Opened': opened}">
+  <div class="MainMenu" v-bind:class="{'MainMenu--Opened': opened, 'MainMenu--Hidden': hidden}">
     <i v-on:click="open"  class="MainMenu-Icon MainMenu-Open fa fa-bars"></i>
     <ul class="MainMenu-Menu">
-      <li v-for="item in menu" class="MainMenu-Item" v-bind:class="{'MainMenu-Item--active': item.state === current}" v-on:click="goTo(item.state)">
+      <li v-for="item in menu" class="MainMenu-Item" v-bind:class="{'MainMenu-Item--active': item.state === current}" v-on:click="goTo(item)">
         <span >{{item.label}}</span>
         <div class="MainMenu-Separator"></div>
       </li>
+      <i class="MainMenu-Pointer fa fa-angle-right" :style="pointerStyle" ></i>
       <i v-on:click="close" class="MainMenu-Icon MainMenu-Close fa fa-angle-left"></i>
     </ul>
   </div>
@@ -13,27 +14,27 @@
 </template>
 
 <script>
+
+  import { findIndex, find } from 'lodash';
+
   export default {
     name: 'MainMenu',
     data() {
       return {
         menu: [
           { label: 'Главная', state: 'main' },
-          { label: 'Галлерея', state: 'gallery' },
+          { label: 'Галлерея', state: 'gallery', hidden: true },
           { label: 'Услуги', state: 'service' },
         ],
-        opened: false
-      }
-    },
-    computed: {
-      current() {
-        return this.$router.currentRoute.name;
+        opened: false,
+        current: 'main',
+        hidden: false
       }
     },
     methods: {
-      goTo(name) {
+      goTo(route) {
         this.close();
-        this.$router.push({ name });
+        this.$router.push({ name: route.state });
       },
       open() {
         this.opened = true;
@@ -41,6 +42,20 @@
       close() {
         this.opened = false;
       }
+    },
+    computed: {
+      pointerStyle() {
+        return {
+          top: (findIndex(this.menu, {state: this.current})*53.8 + 14) +'px'
+        }
+      }
+    },
+    created() {
+      this.$router.afterEach(()=> {
+        this.current = this.$router.currentRoute.name;
+        let currentItem = find(this.menu, { state: this.$router.currentRoute.name });
+        currentItem ? this.hidden = currentItem.hidden : this.hidden = false;
+      });
     }
   }
 </script>
@@ -88,7 +103,6 @@
 
       &.MainMenu-Item--active {
         text-shadow: 0 0 10px #fff;
-        list-style: circle;
         @include mobile {
           color: #f05;
           text-shadow: 0 0 10px #f05;
@@ -124,9 +138,6 @@
 
     .MainMenu-Open {
       left: 0;
-      animation-name: click-me;
-      animation-duration: 10s;
-      animation-iteration-count: infinite;
     }
 
     .MainMenu-Close {
@@ -140,6 +151,21 @@
           opacity: 1;
         }
       }
+    }
+
+    &.MainMenu--Hidden {
+      @include desktop {
+        display: none;
+      }
+    }
+
+    .MainMenu-Pointer {
+      @include mobile {
+        display: none;
+      }
+      position: absolute;
+      transition: top .5s;
+      margin-left: -2em;
     }
 
   }

@@ -16,11 +16,6 @@ export default new Router({
       component: Main
     },
     {
-      path: '/main',
-      name: 'main',
-      component: Main
-    },
-    {
       path: '/gallery',
       name: 'gallery',
       component: Gallery
