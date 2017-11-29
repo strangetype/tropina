@@ -25,6 +25,7 @@
           { label: 'Главная', state: 'main' },
           { label: 'Галлерея', state: 'gallery', hidden: true },
           { label: 'Услуги', state: 'service' },
+          { label: 'Контакты', state: 'contacts' },
         ],
         opened: false,
         current: 'main',
