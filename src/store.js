@@ -86,6 +86,9 @@ export default {
     },
     setGalleryPhoto(context, index) {
       context.commit('changeGalleryPhoto', index);
+    },
+    sendMessage(context, form) {
+      return BE.sendMessage(form);
     }
   }
 };

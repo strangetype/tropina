@@ -497,10 +497,10 @@ const BE = {
   sendMessage: function(message) {
     let resolver = Q.defer();
     http.post(API_URL).set('action','send-email')
-      .send({data: {name: message.name, email: message.email, message: message.message, phone: message.phone}})
+      .send({data: message})
       .end((a,b)=>{
-      resolver.resolve(b);
-  });
+        resolver.resolve(b);
+      });
     return resolver.promise;
   },
   leaveFeedback: function(fb) {

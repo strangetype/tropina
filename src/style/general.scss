@@ -1,4 +1,15 @@
+@import 'colors.scss';
 @import 'mixins.scss';
+
+@import "../../node_modules/vue-material/dist/theme/engine"; // Import the theme engine
+
+@include md-register-theme("default", (
+  primary: $col-primary,
+  accent: $col-accent,
+  theme: dark
+));
+
+@import "../../node_modules/vue-material/dist/theme/all"; // Apply the theme
 
 @font-face {
   font-family: Taurus;
