@@ -26,6 +26,7 @@
           { label: 'Галлерея', state: 'gallery', hidden: true },
           { label: 'Услуги', state: 'service' },
           { label: 'Контакты', state: 'contacts' },
+          { label: 'Отзывы', state: 'feedbacks' },
         ],
         opened: false,
         current: 'main',
@@ -47,7 +48,7 @@
     computed: {
       pointerStyle() {
         return {
-          top: (findIndex(this.menu, {state: this.current})*53.8 + 14) +'px'
+          top: (findIndex(this.menu, { state: this.current })*45.75 + 14) +'px'
         }
       }
     },

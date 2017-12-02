@@ -1,7 +1,7 @@
 import BE from './BE/BE';
-import { forEach, map, cloneDeep, get } from 'lodash';
+import { forEach, map, cloneDeep, get, filter } from 'lodash';
 
-const { PHOTOS_FOLDER_URL, PHOTOS_MINI_FOLDER_URL } = require('./constants');
+const { PHOTOS_FOLDER_URL, PHOTOS_MINI_FOLDER_URL, PHOTOS_CLIENT_FOLDER_URL, IMAGES_URL } = require('./constants');
 
 let backgroundPhotoInterval;
 
@@ -10,6 +10,7 @@ export default {
   state: {
     backgroundPhotos: [],
     categories: [],
+    feedbacks: [],
     currentPhotoId: parseInt(localStorage.currentPhoto) || 0,
     galleryPhotoIndex: 0
   },
@@ -44,6 +45,9 @@ export default {
       if (index<0) index = 0;
       if (index>last) index = last;
       state.galleryPhotoIndex = index;
+    },
+    setFeedbacks(state, feedbacks) {
+      state.feedbacks = feedbacks;
     }
   },
   actions: {
@@ -56,6 +60,11 @@ export default {
           category.photos = map(category.photos, photo => PHOTOS_FOLDER_URL+photo);
         });
         context.commit('categories', categories);
+        context.commit('setFeedbacks', map(filter(data.feedbacks, f => f.confirmed), f => ({
+          name: f.name,
+          photo: f.photo ? PHOTOS_CLIENT_FOLDER_URL + f.photo : IMAGES_URL+'/img-placeholder.png',
+          text: f.text
+        })));
       });
     },
     nextBackgroundPhoto(context) {

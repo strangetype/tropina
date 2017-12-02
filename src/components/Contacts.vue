@@ -8,7 +8,7 @@
       </div>
       <div class="Contacts-Column Contacts-Column--70">
         <h2 class="Contacts-Row md-title">Отправить Сообщение</h2>
-        <form class="Contacts-Form" name="contacts" v-on:submit="sendMessage(form)" >
+        <form class="Contacts-Form" name="contacts" v-on:submit="submit" ref="form" >
           <md-field>
             <label for="contacts-name">Имя</label>
             <md-input id="contacts-name" required v-model="form.name"></md-input>
@@ -26,8 +26,18 @@
             <md-textarea id="contacts-message" required v-model="form.message"></md-textarea>
           </md-field>
           <md-card-actions>
-            <md-button class="md-primary" type="submit">Отправить</md-button>
+            <md-button class="md-primary" type="submit" :disabled="disabled" >Отправить</md-button>
           </md-card-actions>
+          <transition name="fade">
+            <md-toolbar v-if="error" class="md-primary">
+              <h3 class="md-body-2">Сообщение не отправлено</h3>
+            </md-toolbar>
+          </transition>
+          <transition name="fade">
+            <md-toolbar v-if="success" class="md-accent">
+              <h3 class="md-body-2">Сообщение отправлено</h3>
+            </md-toolbar>
+          </transition>
         </form>
       </div>
     </div>
@@ -42,13 +52,39 @@
     name: 'Contacts',
     data() {
       return {
+        disabled: false,
+        error: false,
+        success: false,
         form: {
 
         }
       }
     },
     methods: {
-      ...mapActions(['sendMessage'])
+      ...mapActions(['sendMessage']),
+      submit(event) {
+        event.preventDefault();
+        event.stopPropagation();
+        this.disabled = true;
+        this.sendMessage(this.form).then((response)=> {
+          if (response.error) {
+            this.disabled = false;
+            this.error = true;
+          } else {
+            this.disabled = false;
+            this.success = true;
+            setTimeout(()=> {
+              this.success = false;
+            }, 3000);
+          }
+          this.form = {};
+        });
+      }
+    },
+    mounted() {
+      this.$refs.form.addEventListener('focus', (event) => {
+        this.error = false;
+      }, true);
     }
   }
 </script>
