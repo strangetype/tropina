@@ -98,6 +98,9 @@ export default {
     },
     sendMessage(context, form) {
       return BE.sendMessage(form);
+    },
+    leaveFeedback(context, form) {
+      return BE.leaveFeedback(form);
     }
   }
 };

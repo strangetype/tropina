@@ -3,7 +3,7 @@
     <div class="Feedbacks Content-Container">
       <div class="Feedbacks-Header">
         <h1 class="md-title">Отзывы</h1>
-        <md-button class="md-primary">Оставить Отзыв</md-button>
+        <md-button class="md-primary" v-on:click="showModal = true">Оставить Отзыв</md-button>
       </div>
       <div class="Feedbacks-Container">
         <div class="Feedbacks-Feedback" v-for="feedback in feedbacks">
@@ -21,6 +21,7 @@
         </div>
       </div>
     </div>
+    <feedback-modal :show = showModal :close="closeModal" ></feedback-modal>
   </div>
 </template>
 
@@ -28,9 +29,24 @@
 
   import { mapState } from 'vuex';
 
+  import FeedbackModal from './FeedbackModal.vue';
+
   export default {
     name: 'Feedbacks',
-    computed: mapState(['feedbacks'])
+    data() {
+      return {
+        showModal: false
+      }
+    },
+    computed: mapState(['feedbacks']),
+    methods: {
+      closeModal() {
+        this.showModal = false;
+      }
+    },
+    components: {
+      FeedbackModal
+    }
   }
 </script>
 
@@ -75,6 +91,7 @@
       position: relative;
       display: flex;
       flex-direction: row;
+      margin: 1em 0;
       @include desktop {
         padding: $feedback-padding;
       }
