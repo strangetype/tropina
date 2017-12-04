@@ -58,7 +58,7 @@
 
 <style scoped lang="scss">
 
-  @import "../style/mixins";
+  @import "../../style/mixins";
 
   .BackgroundImage {
     position: relative;

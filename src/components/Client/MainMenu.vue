@@ -16,18 +16,18 @@
 <script>
 
   import { mapActions } from 'vuex';
-  import { findIndex, find } from 'lodash';
+  import { find } from 'lodash';
 
   export default {
     name: 'MainMenu',
     data() {
       return {
         menu: [
-          { label: 'Главная', state: 'main' },
-          { label: 'Галлерея', state: 'gallery', hidden: true, pause: true },
-          { label: 'Услуги', state: 'service', pause: true },
-          { label: 'Контакты', state: 'contacts', pause: true },
-          { label: 'Отзывы', state: 'feedbacks', pause: true },
+          { label: 'Главная', state: 'main', position: 0 },
+          { label: 'Галлерея', state: 'gallery', hidden: true, pause: true, position: 1 },
+          { label: 'Услуги', state: 'service', pause: true, position: 2 },
+          { label: 'Контакты', state: 'contacts', pause: true, position: 3 },
+          { label: 'Отзывы', state: 'feedbacks', pause: true, position: 4 },
         ],
         opened: false,
         current: 'main',
@@ -60,7 +60,7 @@
     computed: {
       pointerStyle() {
         return {
-          top: (findIndex(this.menu, { state: this.current })*45.75 + 14) +'px'
+          top: (find(this.menu, { state: this.current }).position*45.75 + 14) +'px'
         }
       }
     },
@@ -73,7 +73,7 @@
 
 <style lang="scss">
 
-  @import "../style/mixins";
+  @import "../../style/mixins";
 
   .MainMenu {
 

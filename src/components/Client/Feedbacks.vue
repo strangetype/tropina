@@ -52,7 +52,7 @@
 
 <style lang="scss">
 
-  @import '../style/mixins';
+  @import '../../style/mixins';
 
   $feedback-padding: 0.5em;
   $feedback-padding-mobile: 0.2em;

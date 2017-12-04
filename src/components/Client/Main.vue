@@ -15,7 +15,7 @@
 <script>
   import BackgroundNavigationArrows from './BackgroundNavigationArrows';
 
-  import { LOGO_IMAGE_URL } from '../constants';
+  import { LOGO_IMAGE_URL } from '../../constants';
 
   export default {
     name: 'Main',
@@ -32,7 +32,7 @@
 
 <style lang="scss" scoped>
 
-  @import "../style/mixins";
+  @import "../../style/mixins";
 
   .Main-LogoContainer {
     @include mobile {

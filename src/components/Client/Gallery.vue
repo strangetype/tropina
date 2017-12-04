@@ -75,7 +75,7 @@
 
 <style lang="scss">
 
-  @import "../style/mixins";
+  @import "../../style/mixins";
 
   $minibar-size-desktop: 100px;
   $minibar-size-mobile: 50px;

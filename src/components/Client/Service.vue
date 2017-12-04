@@ -8,7 +8,7 @@
 
 <script>
 
-  import { SERVICE_IFRAME_URL } from '../constants';
+  import { SERVICE_IFRAME_URL } from '../../constants';
 
   export default {
     name: 'Service',
@@ -38,7 +38,7 @@
 
 <style lang="scss">
 
-  @import "../style/mixins";
+  @import "../../style/mixins";
 
   .Service {
     .Service-IFrame {

@@ -17,7 +17,7 @@
 
 <style lang="scss" >
 
-  @import "../style/mixins";
+  @import "../../style/mixins";
 
   .BackgroundNavigation {
     position: absolute;

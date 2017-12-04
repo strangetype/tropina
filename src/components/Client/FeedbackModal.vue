@@ -77,7 +77,7 @@
 
 <style lang="scss" >
 
-  @import '../style/mixins';
+  @import '../../style/mixins';
 
   .FeedbackModal {
     overflow: auto;

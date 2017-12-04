@@ -91,7 +91,7 @@
 
 <style lang="scss">
 
-  @import "../style/mixins";
+  @import "../../style/mixins";
 
   .Contacts {
     color: #fff;
