@@ -1,5 +1,5 @@
 <template>
-  <div ref="container" class="BackgroundImage" >
+  <div ref="container" class="BackgroundImage" v-bind:class="{ 'BackgroundImage--Blured': paused }" >
     <transition name="fade">
       <img v-if="even" ref="image1"  v-bind:src="url1" class="BackgroundImage-Image" v-bind:style="imageStyle1" />
     </transition>
@@ -12,7 +12,7 @@
 
 <script>
 
-  import { mapActions, mapGetters } from 'vuex';
+  import { mapActions, mapGetters, mapState } from 'vuex';
 
   const { ceil } = Math;
 
@@ -27,13 +27,16 @@
         imageStyle2: {},
       }
     },
-    computed: mapGetters(['currentPhoto']),
+    computed: {
+      ...mapGetters(['currentPhoto']),
+      ...mapState(['paused'])
+    },
     methods: {
       calcImageStyles() {
-        if (this.$refs.image1) this.imageStyle1 = { left: ceil((this.$refs.container.offsetWidth - this.$refs.image1.offsetWidth)/2) + 'px', top: ceil((this.$refs.container.offsetHeight - this.$refs.image1.offsetHeight)/2) + 'px'  };
-        if (this.$refs.image2) this.imageStyle2 = { left: ceil((this.$refs.container.offsetWidth - this.$refs.image2.offsetWidth)/2) + 'px', top: ceil((this.$refs.container.offsetHeight - this.$refs.image2.offsetHeight)/2) + 'px'  };
+        if (this.$refs.image1) this.imageStyle1 = { left: (this.$refs.container.offsetWidth - this.$refs.image1.offsetWidth)/2 + 'px', top: (this.$refs.container.offsetHeight - this.$refs.image1.offsetHeight)/2 + 'px'  };
+        if (this.$refs.image2) this.imageStyle2 = { left: (this.$refs.container.offsetWidth - this.$refs.image2.offsetWidth)/2 + 'px', top: (this.$refs.container.offsetHeight - this.$refs.image2.offsetHeight)/2 + 'px'  };
       },
-      ...mapActions(['nextBackgroundPhoto', 'startBackgroundPresentation'])
+      ...mapActions(['nextBackgroundPhoto', 'resetBackgroundPresentationInterval'])
     },
     watch: {
       currentPhoto(url) {
@@ -43,7 +46,7 @@
       }
     },
     created() {
-      this.startBackgroundPresentation();
+      this.resetBackgroundPresentationInterval();
       this.__updateStyleInterval = setInterval(this.calcImageStyles, 10);
     },
     destroyed() {
@@ -62,6 +65,11 @@
     width: 100%;
     height: 100%;
     overflow: hidden;
+    &.BackgroundImage--Blured {
+      .BackgroundImage-Image {
+        filter: blur(5px) grayscale(0.5);
+      }
+    }
   }
 
   .BackgroundImage-Image {

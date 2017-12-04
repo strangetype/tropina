@@ -125,6 +125,7 @@
       @include mobile {
         overflow-x: scroll;
         overflow-y: hidden;
+        @include scrollbars(5px, rgba(255,255,255,.2), rgba(0,0,0,.2));
       }
       @include desktop {
         overflow: hidden;

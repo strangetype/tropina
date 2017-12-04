@@ -2,9 +2,9 @@
   <div class="MainMenu" v-bind:class="{'MainMenu--Opened': opened, 'MainMenu--Hidden': hidden}">
     <i v-on:click="open"  class="MainMenu-Icon MainMenu-Open fa fa-bars"></i>
     <ul class="MainMenu-Menu">
-      <li v-for="item in menu" class="MainMenu-Item" v-bind:class="{'MainMenu-Item--active': item.state === current}" v-on:click="goTo(item)">
+      <li v-for="(item, index) in menu" class="MainMenu-Item" v-bind:class="{'MainMenu-Item--active': item.state === current}" v-on:click="goTo(item)">
         <span >{{item.label}}</span>
-        <div class="MainMenu-Separator"></div>
+        <div v-if="index !== menu.length-1" class="MainMenu-Separator"></div>
       </li>
       <i class="MainMenu-Pointer fa fa-angle-right" :style="pointerStyle" ></i>
       <i v-on:click="close" class="MainMenu-Icon MainMenu-Close fa fa-angle-left"></i>
@@ -15,6 +15,7 @@
 
 <script>
 
+  import { mapActions } from 'vuex';
   import { findIndex, find } from 'lodash';
 
   export default {
@@ -23,10 +24,10 @@
       return {
         menu: [
           { label: 'Главная', state: 'main' },
-          { label: 'Галлерея', state: 'gallery', hidden: true },
-          { label: 'Услуги', state: 'service' },
-          { label: 'Контакты', state: 'contacts' },
-          { label: 'Отзывы', state: 'feedbacks' },
+          { label: 'Галлерея', state: 'gallery', hidden: true, pause: true },
+          { label: 'Услуги', state: 'service', pause: true },
+          { label: 'Контакты', state: 'contacts', pause: true },
+          { label: 'Отзывы', state: 'feedbacks', pause: true },
         ],
         opened: false,
         current: 'main',
@@ -43,7 +44,18 @@
       },
       close() {
         this.opened = false;
-      }
+      },
+      determinate() {
+        this.current = this.$router.currentRoute.name;
+        let currentItem = find(this.menu, { state: this.$router.currentRoute.name });
+        if (currentItem) {
+          this.hidden = currentItem.hidden
+          currentItem.pause ? this.pauseBackgroundPresentation() : this.resetBackgroundPresentationInterval();
+        } else {
+          this.hidden = false;
+        };
+      },
+      ...mapActions(['pauseBackgroundPresentation', 'resetBackgroundPresentationInterval'])
     },
     computed: {
       pointerStyle() {
@@ -52,12 +64,9 @@
         }
       }
     },
-    created() {
-      this.$router.afterEach(()=> {
-        this.current = this.$router.currentRoute.name;
-        let currentItem = find(this.menu, { state: this.$router.currentRoute.name });
-        currentItem ? this.hidden = currentItem.hidden : this.hidden = false;
-      });
+    mounted() {
+      this.$router.afterEach(this.determinate);
+      this.determinate();
     }
   }
 </script>

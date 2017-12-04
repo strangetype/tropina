@@ -12,7 +12,8 @@ export default {
     categories: [],
     feedbacks: [],
     currentPhotoId: parseInt(localStorage.currentPhoto) || 0,
-    galleryPhotoIndex: 0
+    galleryPhotoIndex: 0,
+    paused: false
   },
   getters: {
     currentPhoto(state) {
@@ -48,6 +49,9 @@ export default {
     },
     setFeedbacks(state, feedbacks) {
       state.feedbacks = feedbacks;
+    },
+    setPause(state, value) {
+      state.paused = value;
     }
   },
   actions: {
@@ -76,12 +80,14 @@ export default {
       context.commit('changeBackgroundPhoto', -1);
     },
     startBackgroundPresentation(context) {
+      context.commit('setPause', false);
       backgroundPhotoInterval = setInterval(()=> {
         context.dispatch('nextBackgroundPhoto')
       }, 7000);
     },
     pauseBackgroundPresentation(context) {
       clearInterval(backgroundPhotoInterval);
+      context.commit('setPause', true);
     },
     resetBackgroundPresentationInterval(context) {
       context.dispatch('pauseBackgroundPresentation');
