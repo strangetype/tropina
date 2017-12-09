@@ -45,9 +45,9 @@ const BE = {
     let resolver = Q.defer();
     http.get(API_DATA_URL).use(no_cache)
       .end((a,b)=>{
-      this.data = b.body;
-    resolver.resolve(b.body);
-  });
+        this.data = b.body;
+        resolver.resolve(b.body);
+    });
     return resolver.promise;
   },
   getPhotos: function() {
@@ -69,8 +69,8 @@ const BE = {
   deletePhoto: function(id) {
     let resolver = Q.defer();
     _.remove(this.data.bkgPhotos, (p)=>{
-      return p===id;
-  });
+        return p===id;
+    });
     _.forEach(this.data.categories,(c)=>{
       if (c.photos && c.photos.length) {
       _.remove(c.photos, (p)=>{

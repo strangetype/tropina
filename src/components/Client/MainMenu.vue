@@ -79,6 +79,7 @@
 
     .MainMenu-Menu {
       position: absolute;
+      z-index: 100;
       @include desktop {
         top: 60px;
         left: 60px;

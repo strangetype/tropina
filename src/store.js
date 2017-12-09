@@ -8,12 +8,15 @@ let backgroundPhotoInterval;
 
 export default {
   state: {
+    loaded: false,
     backgroundPhotos: [],
     categories: [],
     feedbacks: [],
+    photos: [],
     currentPhotoId: parseInt(localStorage.currentPhoto) || 0,
     galleryPhotoIndex: 0,
-    paused: false
+    paused: false,
+    isAuth: false,
   },
   getters: {
     currentPhoto(state) {
@@ -52,11 +55,21 @@ export default {
     },
     setPause(state, value) {
       state.paused = value;
+    },
+    setAuth(state, value) {
+      state.isAuth = value;
+    },
+    setPhotos(state, photos) {
+      state.photos = photos;
+    },
+    setLoaded(state, loaded) {
+      state.loaded = loaded;
     }
   },
   actions: {
     loadData(context) {
-      BE.getData().then(data=> {
+      return BE.getData().then(data => {
+        context.commit('setLoaded', true);
         context.commit('backgroundPhotos', data.bkgPhotos);
         const categories = cloneDeep(data.categories);
         forEach(categories, category => {
@@ -69,6 +82,7 @@ export default {
           photo: f.photo ? PHOTOS_CLIENT_FOLDER_URL + f.photo : IMAGES_URL+'/img-placeholder.png',
           text: f.text
         })));
+        return data;
       });
     },
     nextBackgroundPhoto(context) {
@@ -107,6 +121,34 @@ export default {
     },
     leaveFeedback(context, form) {
       return BE.leaveFeedback(form);
+    },
+    login(context, { username, password }) {
+      return BE.login(username, password).then(response => {
+        context.commit('setAuth', response.isAuth);
+        return response;
+      });
+    },
+    checkAuth(context) {
+      return BE.isAuth().then(isAuth => {
+        context.commit('setAuth', isAuth);
+      });
+    },
+    loadAllPhotos(context) {
+      BE.getPhotos().then(photos => {
+        context.commit('setPhotos', photos.reverse());
+      });
+    },
+    uploadPhoto(context, { file, type, crop }) {
+      return BE.uploadPhoto(file, type, crop).then(response => {
+        if (!response.error) context.dispatch('loadAllPhotos');
+        return response;
+      });
+    },
+    deletePhoto(context, id) {
+      return BE.deletePhoto(id).then(response => {
+        context.dispatch('loadAllPhotos');
+        return response;
+      });
     }
   }
 };

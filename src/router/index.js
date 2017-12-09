@@ -48,7 +48,17 @@ export default new Router({
     {
       path: '/admin',
       name: 'admin',
-      component: Admin
+      component: Admin,
+      children: [
+        {
+          path: '/admin/photos',
+          name: 'admin.photos'
+        },
+        {
+          path: '/admin/categories',
+          name: 'admin.categories'
+        }
+      ]
     },
   ]
 })
