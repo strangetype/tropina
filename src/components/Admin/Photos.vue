@@ -1,24 +1,37 @@
 <template>
   <div class="AdminPhotos" >
     <div class="AdminPhotos-Actions">
-      <md-button class="md-accent" v-on:click="openUpload" :disabled="blocked" >Загрузить Фото</md-button>
+      <md-button class="md-fab" v-on:click="openUpload" :disabled="blocked" >
+        <i class="fa fa-upload fa-2x"></i>
+      </md-button>
     </div>
     <div class="AdminPhotos-Container">
       <md-card class="AdminPhotos-Photo" v-for="photo in photos" :key="photo">
         <md-card-media-cover md-text-scrim>
-          <md-card-media md-ratio="16:9">
+          <md-card-media >
             <img :src="PHOTOS_FOLDER_URL+photo" alt="Skyscraper">
           </md-card-media>
 
           <md-card-area>
             <md-card-actions>
-              <md-button class="md-primary md-cornered" v-on:click="removePhoto(photo)" :disabled="blocked" >Delete</md-button>
+              <md-button class="md-primary md-cornered" v-on:click="openDeleteModal(photo)" :disabled="blocked" >
+                <i class="fa fa-times"></i>
+              </md-button>
             </md-card-actions>
           </md-card-area>
         </md-card-media-cover>
       </md-card>
     </div>
-    <upload-photo-modal :on-upload="onUpload" :show="uploadOpened" :close="cancelUpload" />
+    <upload-photo-modal :on-upload="onUpload" :show="uploadOpened" :close="cancelUpload" ></upload-photo-modal>
+    <md-dialog-confirm
+      :md-active.sync="deleteModal"
+      md-title="Удаление фото"
+      md-content="Уверена, что хочешь удалить ?"
+      md-confirm-text="Конечно"
+      md-cancel-text="Неа"
+      @md-cancel="closeDeleteModal"
+      @md-confirm="removePhoto" >
+    </md-dialog-confirm>
   </div>
 
 </template>
@@ -36,7 +49,9 @@
       return {
         blocked: false,
         uploadOpened: false,
-        PHOTOS_FOLDER_URL
+        deleteModal: false,
+        PHOTOS_FOLDER_URL,
+        selectedPhoto: null
       }
     },
     components: {
@@ -64,11 +79,19 @@
           });
         });
       },
-      removePhoto(id) {
+      removePhoto() {
         this.blocked = true;
-        this.deletePhoto(id).then(()=> {
+        this.deletePhoto(this.selectedPhoto).then(()=> {
           this.blocked = false;
+          this.closeDeleteModal();
         });
+      },
+      openDeleteModal(id) {
+        this.deleteModal = true;
+        this.selectedPhoto = id;
+      },
+      closeDeleteModal() {
+        this.deleteModal = false;
       }
     },
     computed: {
@@ -81,6 +104,9 @@
 </script>
 
 <style lang="scss">
+
+  @import '../../style/mixins';
+
   .AdminPhotos {
     display: flex;
     flex-direction: column;
@@ -88,7 +114,7 @@
     .AdminPhotos-Actions {
       display: flex;
       justify-content: flex-end;
-      padding: 8px;
+      padding: 16px;
     }
     .AdminPhotos-Container {
       width: 100%;
@@ -98,8 +124,17 @@
       flex-wrap: wrap;
     }
     .AdminPhotos-Photo {
-      width: 33%;
-      padding: 4px;
+      @include desktop {
+        width: 33%;
+      }
+      @include mobile {
+        width: 100%;
+      }
+      .md-card-media img {
+        max-width: 100%!important;
+        max-height: 100%!important;
+        width: auto!important;
+      }
     }
   }
 </style>

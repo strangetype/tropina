@@ -2,7 +2,7 @@
   <div id="app">
     <transition name="fade">
       <div v-if="!loaded" class="absolute-fill-container" style="display: flex; justify-content: center; align-items: center;">
-        <i class="fa fa-circle-o-notch fa-spin fa-3x fa-fw"></i>
+        <md-progress-spinner class="md-primary" md-mode="indeterminate"></md-progress-spinner>
       </div>
     </transition>
     <transition name="fade">

@@ -74,6 +74,7 @@ export default {
         const categories = cloneDeep(data.categories);
         forEach(categories, category => {
           category.miniPhotos = map(category.photos, photo => PHOTOS_MINI_FOLDER_URL+photo);
+          category.photosIds = map(category.photos, photo => photo);
           category.photos = map(category.photos, photo => PHOTOS_FOLDER_URL+photo);
         });
         context.commit('categories', categories);
@@ -148,6 +149,42 @@ export default {
       return BE.deletePhoto(id).then(response => {
         context.dispatch('loadAllPhotos');
         return response;
+      });
+    },
+    addPhotoToGallery(context, { id, order }) {
+      return BE.addPhotoToCategory(id, BE.data.categories[0].name, order).then(response => {
+        if (!response.error) {
+          return context.dispatch('loadData');
+        }
+        return response;
+      });
+    },
+    deletePhotoFromGallery(context, id) {
+      return BE.deletePhotoFromCategory(id, BE.data.categories[0].name).then(response => {
+        context.dispatch('loadData');
+        return response;
+      });
+    },
+    addPhotoToBkg(context, { id, photoAboveId }) {
+      if (photoAboveId) {
+        return BE.addPhotoToBkgAbove(id, photoAboveId).then(response => {
+          if (!response.error) {
+            return context.dispatch('loadData');
+          }
+          return response;
+        });
+      } else {
+        return BE.addPhotoToBkg(id, photoAboveId).then(response => {
+          if (!response.error) {
+            return context.dispatch('loadData');
+          }
+          return response;
+        });
+      }
+    },
+    deletePhotoFromBkg(context, id) {
+      return BE.removePhotoFromBkg(id).then(response => {
+        return context.dispatch('loadData');
       });
     }
   }

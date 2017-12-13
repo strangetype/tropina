@@ -20,7 +20,7 @@
     </md-dialog-content>
     <md-dialog-actions>
       <md-button class="md-default" v-on:click="close" :disabled="disabled">Отмена</md-button>
-      <md-button class="md-accent" v-on:click="upload" :disabled="disabled">Готово</md-button>
+      <md-button class="md-accent" v-on:click="upload" :disabled="disabled || !photo">Готово</md-button>
     </md-dialog-actions>
   </md-dialog>
 </template>

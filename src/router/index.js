@@ -55,8 +55,16 @@ export default new Router({
           name: 'admin.photos'
         },
         {
-          path: '/admin/categories',
-          name: 'admin.categories'
+          path: '/admin/gallery',
+          name: 'admin.gallery'
+        },
+        {
+          path: '/admin/main',
+          name: 'admin.main'
+        },
+        {
+          path: '/admin/service',
+          name: 'admin.service'
         }
       ]
     },

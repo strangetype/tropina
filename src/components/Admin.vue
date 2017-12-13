@@ -1,12 +1,18 @@
 <template>
   <div class="Admin" >
     <div v-if="isAuth">
-      <md-tabs md-sync-route >
+      <md-tabs md-sync-route  >
         <md-tab id="tab-photos" md-label="Все фото" to="/admin/photos">
           <AdminPhotos/>
         </md-tab>
-        <md-tab id="tab-categories" md-label="Галлерея" to="/admin/categories">
-          <AdminCategories />
+        <md-tab id="tab-gallery" md-label="Галлерея" to="/admin/gallery">
+          <AdminGallery />
+        </md-tab>
+        <md-tab id="tab-main" md-label="Главная" to="/admin/main">
+          <AdminMain />
+        </md-tab>
+        <md-tab id="tab-service" md-label="Услуги" to="/admin/service">
+          <AdminService />
         </md-tab>
       </md-tabs>
     </div>
@@ -44,13 +50,17 @@
   import { mapState, mapActions } from 'vuex';
 
   import AdminPhotos from './Admin/Photos.vue';
-  import AdminCategories from './Admin/Categories.vue';
+  import AdminGallery from './Admin/Gallery.vue';
+  import AdminMain from './Admin/Main.vue';
+  import AdminService from './Admin/Service.vue';
 
   export default {
     name: 'Admin',
     components: {
       AdminPhotos,
-      AdminCategories
+      AdminGallery,
+      AdminMain,
+      AdminService
     },
     data() {
       return {
