@@ -62,12 +62,16 @@
           height: canvas.height,
         };
         const file = canvas.toDataURL();
-        this.onUpload({ file, type: 'dataURI', crop }).then(() => {
+        this.onUpload({ file, type: 'dataURI', crop }).then(response => {
           this.disabled = false;
           this.photo = null;
-          this.close();
-        }).catch(()=> {
+          setTimeout(()=> {
+            this.close();
+          });
+          return response;
+        }).catch(error=> {
           this.disabled = false;
+          return error;
         });
       },
       updateCroppedImage() {

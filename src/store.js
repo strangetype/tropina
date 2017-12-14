@@ -1,5 +1,5 @@
 import BE from './BE/BE';
-import { forEach, map, cloneDeep, get, filter } from 'lodash';
+import { forEach, map, cloneDeep, get, filter, sortBy } from 'lodash';
 
 const { PHOTOS_FOLDER_URL, PHOTOS_MINI_FOLDER_URL, PHOTOS_CLIENT_FOLDER_URL, IMAGES_URL } = require('./constants');
 
@@ -12,6 +12,7 @@ export default {
     backgroundPhotos: [],
     categories: [],
     feedbacks: [],
+    allFeedbacks: [],
     photos: [],
     currentPhotoId: parseInt(localStorage.currentPhoto) || 0,
     galleryPhotoIndex: 0,
@@ -53,6 +54,9 @@ export default {
     setFeedbacks(state, feedbacks) {
       state.feedbacks = feedbacks;
     },
+    setAllFeedbacks(state, feedbacks) {
+      state.allFeedbacks = feedbacks;
+    },
     setPause(state, value) {
       state.paused = value;
     },
@@ -83,6 +87,10 @@ export default {
           photo: f.photo ? PHOTOS_CLIENT_FOLDER_URL + f.photo : IMAGES_URL+'/img-placeholder.png',
           text: f.text
         })));
+        context.commit('setAllFeedbacks', sortBy(map(data.feedbacks, f=> {
+          f.photoUrl = PHOTOS_CLIENT_FOLDER_URL + f.photo;
+          return f;
+        }), ['date']));
         return data;
       });
     },
@@ -145,6 +153,9 @@ export default {
         return response;
       });
     },
+    uploadClientPhoto(context, { file, type, crop }) {
+      return BE.uploadClientPhoto(file, type, crop);
+    },
     deletePhoto(context, id) {
       return BE.deletePhoto(id).then(response => {
         context.dispatch('loadAllPhotos');
@@ -192,6 +203,16 @@ export default {
     },
     saveServicesContent(context, content) {
       return BE.saveServicesInfo(content);
+    },
+    saveFeedback(context, { feedback, index }) {
+      return BE.saveFeedback(feedback, index).then(response => {
+        return context.dispatch('loadData');
+      });
+    },
+    deleteFeedback(context, feedback) {
+      return BE.deleteFeedback(feedback).then(response => {
+        return context.dispatch('loadData');
+      });
     }
   }
 };

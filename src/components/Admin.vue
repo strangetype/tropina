@@ -14,6 +14,9 @@
         <md-tab id="tab-service" md-label="Услуги" to="/admin/service">
           <AdminService />
         </md-tab>
+        <md-tab id="tab-feedbacks" md-label="Отзывы" to="/admin/feedbacks">
+          <AdminFeedbacks />
+        </md-tab>
       </md-tabs>
     </div>
     <div v-if="!isAuth" class="md-layout md-gutter md-alignment-center absolute-fill-container" >
@@ -53,6 +56,7 @@
   import AdminGallery from './Admin/Gallery.vue';
   import AdminMain from './Admin/Main.vue';
   import AdminService from './Admin/Service.vue';
+  import AdminFeedbacks from './Admin/Feedbacks.vue';
 
   export default {
     name: 'Admin',
@@ -60,7 +64,8 @@
       AdminPhotos,
       AdminGallery,
       AdminMain,
-      AdminService
+      AdminService,
+      AdminFeedbacks
     },
     data() {
       return {

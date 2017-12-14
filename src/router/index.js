@@ -65,6 +65,10 @@ export default new Router({
         {
           path: '/admin/service',
           name: 'admin.service'
+        },
+        {
+          path: '/admin/feedbacks',
+          name: 'admin.feedbacks'
         }
       ]
     },
