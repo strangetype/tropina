@@ -1,5 +1,6 @@
 const API_DOMAIN = 'http://www.tropina.pro';
-const API_URL = API_DOMAIN +'/BE/index.php';
+const BE_URL = API_DOMAIN+'/BE';
+const API_URL = BE_URL +'/index.php';
 const API_DATA_URL = API_DOMAIN + '/BE/data.json';
 
 const IMAGES_URL = API_DOMAIN+'/images';
@@ -12,6 +13,7 @@ const SERVICE_IFRAME_URL = API_DOMAIN + '/BE/services-info.html';
 
 module.exports = {
   API_DOMAIN,
+  BE_URL,
   API_URL,
   API_DATA_URL,
   IMAGES_URL,

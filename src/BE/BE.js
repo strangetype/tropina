@@ -5,7 +5,7 @@ const md5 = require('js-md5');
 
 const no_cache = require('superagent-no-cache');
 
-const {API_URL, API_DATA_URL} = require('../constants');
+const {API_URL, API_DATA_URL, BE_URL} = require('../constants');
 
 const BE = {
   url: API_URL,
@@ -578,7 +578,7 @@ const BE = {
   },
   getServicesInfo: function () {
     let resolver = Q.defer();
-    http.get('BE/services-info.html').set('content-type', 'html').end((a, b) => {
+    http.get(BE_URL+'/services-info.html').set('content-type', 'html').end((a, b) => {
       resolver.resolve(b.text);
     });
     return resolver.promise;

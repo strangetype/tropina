@@ -186,6 +186,12 @@ export default {
       return BE.removePhotoFromBkg(id).then(response => {
         return context.dispatch('loadData');
       });
+    },
+    getServiceContent() {
+      return BE.getServicesInfo();
+    },
+    saveServicesContent(context, content) {
+      return BE.saveServicesInfo(content);
     }
   }
 };
