@@ -1,11 +1,19 @@
 <template>
-  <div ref="container" class="BackgroundImage" v-bind:class="{ 'BackgroundImage--Blured': paused }" >
+  <div class="BackgroundImage" v-bind:class="{ 'BackgroundImage--Blured': paused }" >
     <transition name="fade">
-      <img v-if="even" ref="image1"  v-bind:src="url1" class="BackgroundImage-Image" v-bind:style="imageStyle1" />
+      <img v-if="even" ref="image1" v-bind:src="url1" class="BackgroundImage-Image" />
     </transition>
     <transition name="fade">
-      <img v-if="!even" ref="image2" v-bind:src="url2" class="BackgroundImage-Image" v-bind:style="imageStyle2" />
+      <img v-if="!even" ref="image2" v-bind:src="url2" class="BackgroundImage-Image" />
     </transition>
+
+    <transition name="fade">
+      <img v-if="even" v-bind:src="url1" class="BackgroundImage-ImageMobile"  />
+    </transition>
+    <transition name="fade">
+      <img v-if="!even" v-bind:src="url2" class="BackgroundImage-ImageMobile"  />
+    </transition>
+
     <div class="BackgroundImage-Shadow"></div>
   </div>
 </template>
@@ -32,17 +40,12 @@
       ...mapState(['paused'])
     },
     methods: {
-      calcImageStyles() {
-        if (this.$refs.image1) this.imageStyle1 = { left: (this.$refs.container.offsetWidth - this.$refs.image1.offsetWidth)/2 + 'px', top: (this.$refs.container.offsetHeight - this.$refs.image1.offsetHeight)/2 + 'px'  };
-        if (this.$refs.image2) this.imageStyle2 = { left: (this.$refs.container.offsetWidth - this.$refs.image2.offsetWidth)/2 + 'px', top: (this.$refs.container.offsetHeight - this.$refs.image2.offsetHeight)/2 + 'px'  };
-      },
       ...mapActions(['nextBackgroundPhoto', 'resetBackgroundPresentationInterval'])
     },
     watch: {
       currentPhoto(url) {
         this.even ? this.url2 = url: this.url1 = url;
         this.even = !this.even;
-        this.calcImageStyles();
       }
     },
     created() {
@@ -65,8 +68,13 @@
     width: 100%;
     height: 100%;
     overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+
     &.BackgroundImage--Blured {
-      .BackgroundImage-Image {
+      .BackgroundImage-Image, .BackgroundImage-ImageMobile {
         filter: blur(5px) grayscale(0.5);
       }
     }
@@ -78,6 +86,21 @@
     min-height: 100vh;
     max-width: none;
     max-height: none;
+    @include mobile {
+      filter: blur(10px) grayscale(0.5);
+    }
+  }
+
+  .BackgroundImage-ImageMobile {
+    @include desktop {
+      position: absolute;
+      display: none;
+    }
+    @include mobile {
+      position: absolute;
+      max-width: 100vw;
+      max-height: 100vh;
+    }
   }
 
   .BackgroundImage-Shadow {
@@ -93,7 +116,7 @@
     }
 
     @include mobile {
-      background: rgba(0,0,0,0.5);
+      box-shadow: inset 0 0 250px #000;
     }
 
   }

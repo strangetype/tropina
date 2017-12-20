@@ -24,7 +24,7 @@
       return {
         menu: [
           { label: 'Главная', state: 'main', position: 0 },
-          { label: 'Галлерея', state: 'gallery', hidden: true, pause: true, position: 1 },
+          { label: 'Галерея', state: 'gallery', hidden: true, pause: true, position: 1 },
           { label: 'Услуги', state: 'service', pause: true, position: 2 },
           { label: 'Контакты', state: 'contacts', pause: true, position: 3 },
           { label: 'Отзывы', state: 'feedbacks', pause: true, position: 4 },

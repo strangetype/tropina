@@ -5,7 +5,7 @@
         <md-tab id="tab-photos" md-label="Все фото" to="/admin/photos">
           <AdminPhotos/>
         </md-tab>
-        <md-tab id="tab-gallery" md-label="Галлерея" to="/admin/gallery">
+        <md-tab id="tab-gallery" md-label="Галерея" to="/admin/gallery">
           <AdminGallery />
         </md-tab>
         <md-tab id="tab-main" md-label="Главная" to="/admin/main">

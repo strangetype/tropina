@@ -85,6 +85,7 @@
       }
       @include mobile {
         padding: 0 2*$feedback-padding-mobile;
+        padding-right: 15px;
       }
     }
     .Feedbacks-Feedback {
