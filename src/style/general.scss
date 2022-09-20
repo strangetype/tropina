@@ -65,6 +65,10 @@ body {
   }
 }
 
+.md-dialog .md-dialog-container {
+  height: 80vh;
+}
+
 @keyframes click-me {
   0% { text-shadow: 0 0 0 #fff }
   30% { text-shadow: 0 0 50px #fff }

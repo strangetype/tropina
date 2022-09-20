@@ -104,6 +104,7 @@
     }
     .Gallery-PhotoSecondary {
       position: absolute;
+      left: 0;
       top: 0;
     }
     .Gallery-MiniBar {

@@ -1,6 +1,6 @@
 <template>
   <md-dialog :md-active="opened">
-    <md-dialog-content>
+    <md-dialog-content >
       <div style="display: flex; flex-direction: row; flex-wrap: wrap;">
       <div style="position: relative; flex-shrink: 0;" v-for="photo in photos">
         <img :src="PHOTOS_MINI_FOLDER_URL+photo" v-on:click="selectedPhoto = photo" />
